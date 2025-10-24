@@ -147,13 +147,13 @@ export default function Contact() {
               </h2>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <a
-                  href="mailto:your.email@example.com"
+                  href="mailto:gayathri.polubothu@gmail.com"
                   className="text-primary-600 hover:text-primary-700 font-medium"
                 >
                   📧 Email
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/gayathri-polubothu"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary-600 hover:text-primary-700 font-medium"
@@ -161,7 +161,7 @@ export default function Contact() {
                   🐙 GitHub
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/gayathri-polubothu/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary-600 hover:text-primary-700 font-medium"

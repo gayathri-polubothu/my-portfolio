@@ -6,8 +6,9 @@ export default function Layout({ children, title = 'My Portfolio' }) {
   const router = useRouter();
 
   const navItems = [
-    { name: 'Home', path: '/' },
+    { name: 'About', path: '/' },
     { name: 'Projects', path: '/projects' },
+    { name: 'Resume', path: '/resume' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -26,7 +27,7 @@ export default function Layout({ children, title = 'My Portfolio' }) {
           <div className="container-custom">
             <div className="flex justify-between items-center h-16">
               <Link href="/" className="text-xl font-bold text-primary-600">
-                Portfolio
+                Gayathri Polubothu
               </Link>
 
               <ul className="flex space-x-8">
@@ -57,11 +58,11 @@ export default function Layout({ children, title = 'My Portfolio' }) {
           <div className="container-custom">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-400">
-                © {new Date().getFullYear()} My Portfolio. All rights reserved.
+                © {new Date().getFullYear()} Gayathri Polubothu. All rights reserved.
               </p>
-              <div className="flex space-x-6 mt-4 md:mt-0">
+              <div className="flex flex-wrap justify-center gap-4 md:gap-6 mt-4 md:mt-0">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/gayathri-polubothu"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors"
@@ -69,7 +70,7 @@ export default function Layout({ children, title = 'My Portfolio' }) {
                   GitHub
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/gayathri-polubothu/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors"
@@ -77,12 +78,17 @@ export default function Layout({ children, title = 'My Portfolio' }) {
                   LinkedIn
                 </a>
                 <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="mailto:gayathri.polubothu@gmail.com"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Twitter
+                  Email
+                </a>
+                <a
+                  href="/Gayathri_Polubothu_CV.pdf"
+                  download
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Resume
                 </a>
               </div>
             </div>

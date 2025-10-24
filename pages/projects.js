@@ -33,13 +33,13 @@ export default function Projects() {
     : [];
 
   return (
-    <Layout title="Projects | My Portfolio">
+    <Layout title="Projects | Gayathri Polubothu">
       <section className="py-20 bg-gray-50 min-h-screen">
         <div className="container-custom">
           <h1 className="section-title text-center">My Projects</h1>
           <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-            Here are some of my recent projects showcasing my skills in web development,
-            design, and problem-solving.
+            Showcasing 9+ years of full-stack development experience across diverse industries,
+            from e-commerce platforms to IoT solutions.
           </p>
 
           {/* Filter Buttons */}
@@ -113,15 +113,17 @@ export default function Projects() {
                           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
                         />
                         {project.featured && (
-                          <span className="absolute top-2 right-2 bg-primary-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                            Featured
+                          <span className="absolute top-3 right-3 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                            ⭐ Featured
                           </span>
                         )}
                       </div>
 
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">
-                        {project.title}
-                      </h3>
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <h3 className="text-xl font-bold text-gray-900 flex-1">
+                          {project.title}
+                        </h3>
+                      </div>
 
                       <p className="text-gray-600 mb-4 line-clamp-3">
                         {project.description}

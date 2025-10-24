@@ -20,22 +20,38 @@ export default function Home() {
   const { data, loading, error } = useQuery(FEATURED_PROJECTS_QUERY);
 
   return (
-    <Layout title="Home | My Portfolio">
+    <Layout title="About | Gayathri Polubothu">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-50 to-primary-100 py-20">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
+            {/* Profile Image */}
+            <div className="mb-8 flex justify-center">
+              <img
+                src="/MyImage/profile.png"
+                alt="Gayathri Polubothu"
+                className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-white shadow-lg"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://via.placeholder.com/200x200/6366f1/ffffff?text=GP';
+                }}
+              />
+            </div>
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
               Hi, I'm{' '}
-              <span className="text-primary-600">Your Name</span>
+              <span className="text-primary-600">Gayathri Polubothu</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 mb-8">
               Full Stack Developer | React | Next.js | Node.js | MongoDB
             </p>
-            <p className="text-lg text-gray-600 mb-12">
-              I build modern web applications with clean code and beautiful design.
-              Passionate about creating exceptional user experiences.
-            </p>
+            <div className="text-lg text-gray-600 mb-12 text-left max-w-3xl mx-auto">
+              <p className="mb-4">
+                Experienced Full Stack Developer with over 9 years of hands-on experience in frontend, backend, and full-stack development roles. Skilled in building modern, scalable web applications using React.js, Angular, Node.js, and microservice-based architectures. Proficient in both RESTful and GraphQL API integrations, with a strong focus on performance, usability, and maintainable code.
+              </p>
+              <p>
+                Currently working at ZORO UK, where I contribute to developing and optimizing e-commerce solutions that enhance user experience and support complex business workflows.
+              </p>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/projects" className="btn-primary">
                 View My Work
@@ -97,12 +113,17 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {data?.featuredProjects?.map((project) => (
-              <div key={project.id} className="card">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
+              <div key={project.id} className="card group">
+                <div className="relative overflow-hidden rounded-lg mb-4">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <span className="absolute top-3 right-3 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                    ⭐ Featured
+                  </span>
+                </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {project.title}
                 </h3>
