@@ -7,6 +7,12 @@ import Contact from '../../models/Contact';
 
 // GraphQL Schema
 const typeDefs = gql`
+  type Feature {
+    title: String!
+    description: [String!]!
+    images: [String!]!
+  }
+
   type Project {
     id: ID!
     title: String!
@@ -17,6 +23,7 @@ const typeDefs = gql`
     githubUrl: String
     featured: Boolean!
     order: Int!
+    features: [Feature!]!
     createdAt: String!
     updatedAt: String!
   }

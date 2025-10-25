@@ -1,24 +1,11 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
-import { gql, useQuery } from '@apollo/client';
+import Link from 'next/link';
+import Image from 'next/image';
+import dbConnect from '../lib/dbConnect';
+import Project from '../models/Project';
 
-const PROJECTS_QUERY = gql`
-  query Projects {
-    projects {
-      id
-      title
-      description
-      image
-      tech
-      demoUrl
-      githubUrl
-      featured
-    }
-  }
-`;
-
-export default function Projects() {
-  const { data, loading, error } = useQuery(PROJECTS_QUERY);
+export default function Projects({ projects, allTechnologies }) {
   const [filter, setFilter] = useState('all');
 
   const filterProjects = (projects) => {
@@ -27,10 +14,6 @@ export default function Projects() {
     if (filter === 'featured') return projects.filter((p) => p.featured);
     return projects.filter((p) => p.tech.includes(filter));
   };
-
-  const allTechnologies = data?.projects
-    ? [...new Set(data.projects.flatMap((p) => p.tech))]
-    : [];
 
   return (
     <Layout title="Projects | Gayathri Polubothu">
@@ -79,94 +62,88 @@ export default function Projects() {
             ))}
           </div>
 
-          {/* Loading State */}
-          {loading && (
-            <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-              <p className="mt-4 text-gray-600">Loading projects...</p>
-            </div>
-          )}
-
-          {/* Error State */}
-          {error && (
-            <div className="text-center text-red-600 bg-red-50 p-6 rounded-lg">
-              <p className="font-semibold">Error loading projects</p>
-              <p className="text-sm mt-2">{error.message}</p>
-            </div>
-          )}
-
           {/* Projects Grid */}
-          {data && (
-            <>
-              {filterProjects(data.projects).length === 0 ? (
-                <div className="text-center text-gray-600">
-                  <p>No projects found for this filter.</p>
-                </div>
-              ) : (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {filterProjects(data.projects).map((project) => (
-                    <div key={project.id} className="card group">
-                      <div className="relative overflow-hidden rounded-lg mb-4">
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
-                        />
-                        {project.featured && (
-                          <span className="absolute top-3 right-3 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-                            ⭐ Featured
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <h3 className="text-xl font-bold text-gray-900 flex-1">
-                          {project.title}
-                        </h3>
-                      </div>
-
-                      <p className="text-gray-600 mb-4 line-clamp-3">
-                        {project.description}
-                      </p>
-
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tech.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="flex gap-4">
-                        {project.demoUrl && (
-                          <a
-                            href={project.demoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary-600 hover:text-primary-700 font-medium"
-                          >
-                            Live Demo →
-                          </a>
-                        )}
-                        {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-600 hover:text-gray-700 font-medium"
-                          >
-                            GitHub →
-                          </a>
-                        )}
-                      </div>
+          {filterProjects(projects).length === 0 ? (
+            <div className="text-center text-gray-600">
+              <p>No projects found for this filter.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filterProjects(projects).map((project) => (
+                <div key={project.id} className="card group">
+                  <Link href={`/projects/${project.id}`}>
+                    <div className="relative overflow-hidden rounded-lg mb-4 cursor-pointer aspect-video bg-gray-100">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-contain transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                      {project.featured && (
+                        <span className="absolute top-3 right-3 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg z-10">
+                          ⭐ Featured
+                        </span>
+                      )}
                     </div>
-                  ))}
+                  </Link>
+
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <Link href={`/projects/${project.id}`}>
+                      <h3 className="text-xl font-bold text-gray-900 flex-1 hover:text-primary-600 transition-colors cursor-pointer">
+                        {project.title}
+                      </h3>
+                    </Link>
+                  </div>
+
+                  <p className="text-gray-600 mb-4 line-clamp-3">
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tech.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-4">
+                    <Link
+                      href={`/projects/${project.id}`}
+                      className="text-primary-600 hover:text-primary-700 font-medium"
+                    >
+                      View Details →
+                    </Link>
+                    {project.demoUrl && (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-gray-700 font-medium"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Live Demo →
+                      </a>
+                    )}
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-gray-700 font-medium"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        GitHub →
+                      </a>
+                    )}
+                  </div>
                 </div>
-              )}
-            </>
+              ))}
+            </div>
           )}
         </div>
       </section>
@@ -174,3 +151,42 @@ export default function Projects() {
   );
 }
 
+// Static generation at build time
+export async function getStaticProps() {
+  try {
+    await dbConnect();
+    const projects = await Project.find({}).sort({ order: 1, createdAt: -1 }).lean();
+
+    // Deep serialize to convert all ObjectIds to strings
+    const serializedProjects = JSON.parse(JSON.stringify(projects, (key, value) => {
+      if (key === '_id' || key === 'id') {
+        return value.toString();
+      }
+      return value;
+    })).map((project) => ({
+      ...project,
+      id: project._id,
+      createdAt: new Date(project.createdAt).toISOString(),
+      updatedAt: new Date(project.updatedAt).toISOString(),
+    }));
+
+    const allTechnologies = [...new Set(serializedProjects.flatMap((p) => p.tech))];
+
+    return {
+      props: {
+        projects: serializedProjects,
+        allTechnologies,
+      },
+      revalidate: 3600, // Revalidate every hour
+    };
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    return {
+      props: {
+        projects: [],
+        allTechnologies: [],
+      },
+      revalidate: 60,
+    };
+  }
+}

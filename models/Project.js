@@ -36,6 +36,23 @@ const ProjectSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    features: {
+      type: [{
+        title: {
+          type: String,
+          required: true,
+        },
+        description: {
+          type: [String],
+          default: [],
+        },
+        images: {
+          type: [String],
+          default: [],
+        },
+      }],
+      default: [],
+    },
   },
   {
     timestamps: true,

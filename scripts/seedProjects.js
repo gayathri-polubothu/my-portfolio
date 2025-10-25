@@ -11,6 +11,11 @@ const projectSchema = new mongoose.Schema({
   githubUrl: String,
   featured: { type: Boolean, default: false },
   order: { type: Number, default: 0 },
+  features: [{
+    title: { type: String, required: true },
+    description: [{ type: String }],
+    images: [{ type: String }],
+  }],
 }, {
   timestamps: true,
 });
@@ -28,6 +33,68 @@ const projects = [
     githubUrl: '',
     featured: true,
     order: 1,
+    features: [
+      {
+        title: 'Proforma payment method on checkout/order page end-end',
+        description: [
+          'Implemented complete end-to-end Proforma payment method integration',
+          'Built user-friendly checkout flow with payment validation',
+          'Integrated payment processing with backend APIs',
+          'Added comprehensive error handling and success notifications',
+          'Implemented order confirmation and receipt generation',
+          'Added Jest unit tests and Cypress E2E tests for payment flow'
+        ],
+        images: [
+          'https://via.placeholder.com/600x400/6366f1/ffffff?text=Proforma+Checkout',
+          'https://via.placeholder.com/600x400/6366f1/ffffff?text=Proforma+Order+Page'
+        ]
+      },
+      {
+        title: 'ZORO Unleash internal extension to developers and CS team',
+        description: [
+          'Developed internal Chrome extension for feature flag management',
+          'Integrated with Unleash feature flagging system',
+          'Provided developers and CS team ability to toggle features',
+          'Built intuitive UI for feature flag visualization',
+          'Implemented real-time feature flag updates',
+          'Added user authentication and role-based access control'
+        ],
+        images: [
+          'https://via.placeholder.com/600x400/6366f1/ffffff?text=Unleash+Extension+Dashboard',
+          'https://via.placeholder.com/600x400/6366f1/ffffff?text=Feature+Toggle+Interface'
+        ]
+      },
+      {
+        title: 'My account menu revamp with the given figma design',
+        description: [
+          'Redesigned account menu based on Figma specifications',
+          'Implemented modern, responsive UI with Tailwind CSS',
+          'Enhanced user experience with smooth animations',
+          'Added intuitive navigation structure',
+          'Improved accessibility with ARIA labels',
+          'Implemented mobile-first responsive design'
+        ],
+        images: [
+          'https://via.placeholder.com/600x400/6366f1/ffffff?text=Account+Menu+Desktop',
+          'https://via.placeholder.com/600x400/6366f1/ffffff?text=Account+Menu+Mobile'
+        ]
+      },
+      {
+        title: 'Order/confirmation page revamp with the given figma design',
+        description: [
+          'Redesigned order confirmation page following Figma design',
+          'Implemented clean, modern order summary layout',
+          'Added order tracking visualization',
+          'Integrated print and email receipt functionality',
+          'Enhanced mobile responsiveness',
+          'Improved page load performance with optimized rendering'
+        ],
+        images: [
+          'https://via.placeholder.com/600x400/6366f1/ffffff?text=Order+Confirmation',
+          'https://via.placeholder.com/600x400/6366f1/ffffff?text=Order+Details'
+        ]
+      }
+    ]
   },
   {
     title: 'Quintesse Management Platform',

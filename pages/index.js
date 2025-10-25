@@ -1,24 +1,10 @@
 import Layout from '../components/Layout';
 import Link from 'next/link';
-import { gql, useQuery } from '@apollo/client';
+import Image from 'next/image';
+import dbConnect from '../lib/dbConnect';
+import Project from '../models/Project';
 
-const FEATURED_PROJECTS_QUERY = gql`
-  query FeaturedProjects {
-    featuredProjects {
-      id
-      title
-      description
-      image
-      tech
-      demoUrl
-      githubUrl
-    }
-  }
-`;
-
-export default function Home() {
-  const { data, loading, error } = useQuery(FEATURED_PROJECTS_QUERY);
-
+export default function Home({ featuredProjects }) {
   return (
     <Layout title="About | Gayathri Polubothu">
       {/* Hero Section */}
@@ -27,15 +13,16 @@ export default function Home() {
           <div className="max-w-3xl mx-auto text-center">
             {/* Profile Image */}
             <div className="mb-8 flex justify-center">
-              <img
-                src="/MyImage/profile.png"
-                alt="Gayathri Polubothu"
-                className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-white shadow-lg"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = 'https://via.placeholder.com/200x200/6366f1/ffffff?text=GP';
-                }}
-              />
+              <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                <Image
+                  src="/MyImage/profile.png"
+                  alt="Gayathri Polubothu"
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 768px) 128px, 160px"
+                />
+              </div>
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
               Hi, I'm{' '}
@@ -95,35 +82,29 @@ export default function Home() {
         <div className="container-custom">
           <h2 className="section-title text-center">Featured Projects</h2>
 
-          {loading && (
-            <p className="text-center text-gray-600">Loading projects...</p>
-          )}
-
-          {error && (
-            <p className="text-center text-red-600">
-              Error loading projects. Please try again later.
-            </p>
-          )}
-
-          {data && data.featuredProjects.length === 0 && (
+          {featuredProjects.length === 0 && (
             <p className="text-center text-gray-600">
               No featured projects yet. Check back soon!
             </p>
           )}
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {data?.featuredProjects?.map((project) => (
+            {featuredProjects.map((project) => (
               <div key={project.id} className="card group">
-                <div className="relative overflow-hidden rounded-lg mb-4">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <span className="absolute top-3 right-3 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-                    ⭐ Featured
-                  </span>
-                </div>
+                <Link href={`/projects/${project.id}`}>
+                  <div className="relative overflow-hidden rounded-lg mb-4 aspect-video bg-gray-100">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-contain transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <span className="absolute top-3 right-3 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg z-10">
+                      ⭐ Featured
+                    </span>
+                  </div>
+                </Link>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {project.title}
                 </h3>
@@ -139,12 +120,18 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="flex gap-4">
+                  <Link
+                    href={`/projects/${project.id}`}
+                    className="text-primary-600 hover:text-primary-700 font-medium"
+                  >
+                    View Details →
+                  </Link>
                   {project.demoUrl && (
                     <a
                       href={project.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-primary-600 hover:text-primary-700 font-medium"
+                      className="text-gray-600 hover:text-gray-700 font-medium"
                     >
                       Live Demo →
                     </a>
@@ -193,3 +180,38 @@ export default function Home() {
   );
 }
 
+// Static generation at build time
+export async function getStaticProps() {
+  try {
+    await dbConnect();
+    const projects = await Project.find({ featured: true }).sort({ order: 1 }).lean();
+
+    // Deep serialize to convert all ObjectIds to strings
+    const serializedProjects = JSON.parse(JSON.stringify(projects, (key, value) => {
+      if (key === '_id' || key === 'id') {
+        return value.toString();
+      }
+      return value;
+    })).map((project) => ({
+      ...project,
+      id: project._id,
+      createdAt: new Date(project.createdAt).toISOString(),
+      updatedAt: new Date(project.updatedAt).toISOString(),
+    }));
+
+    return {
+      props: {
+        featuredProjects: serializedProjects,
+      },
+      revalidate: 3600, // Revalidate every hour
+    };
+  } catch (error) {
+    console.error('Error fetching featured projects:', error);
+    return {
+      props: {
+        featuredProjects: [],
+      },
+      revalidate: 60,
+    };
+  }
+}
