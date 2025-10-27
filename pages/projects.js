@@ -4,9 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import dbConnect from '../lib/dbConnect';
 import Project from '../models/Project';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function Projects({ projects, allTechnologies }) {
   const [filter, setFilter] = useState('all');
+  const { theme } = useTheme();
 
   const filterProjects = (projects) => {
     if (!projects) return [];
@@ -15,97 +17,93 @@ export default function Projects({ projects, allTechnologies }) {
     return projects.filter((p) => p.tech.includes(filter));
   };
 
+  const FilterButton = ({ value, label }) => {
+    const isActive = filter === value;
+    return (
+      <button
+        onClick={() => setFilter(value)}
+        className={`px-4 py-2 rounded-lg font-medium transition-all border ${
+          isActive
+            ? 'bg-primary-600 text-white border-primary-600 hover:bg-primary-700'
+            : theme.name === 'light'
+            ? 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+            : 'bg-gray-800 text-gray-200 border-gray-600 hover:bg-gray-700'
+        }`}
+      >
+        {label}
+      </button>
+    );
+  };
+
   return (
     <Layout title="Projects | Gayathri Polubothu">
-      <section className="py-20 bg-gray-50 min-h-screen">
+      <section className={`py-12 ${theme.background} min-h-screen transition-colors duration-300`}>
         <div className="container-custom">
-          <h1 className="section-title text-center">My Projects</h1>
-          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          <h1 className={`section-title text-center ${theme.text} transition-colors`}>My Projects</h1>
+          <p className={`text-center ${theme.textSecondary} mb-12 max-w-2xl mx-auto transition-colors`}>
             Showcasing 9+ years of full-stack development experience across diverse industries,
             from e-commerce platforms to IoT solutions.
           </p>
 
-          {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
-            <button
-              onClick={() => setFilter('all')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                filter === 'all'
-                  ? 'bg-primary-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              All
-            </button>
-            <button
-              onClick={() => setFilter('featured')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                filter === 'featured'
-                  ? 'bg-primary-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              Featured
-            </button>
+            <FilterButton value="all" label="All" />
+            <FilterButton value="featured" label="Featured" />
             {allTechnologies.slice(0, 5).map((tech) => (
-              <button
-                key={tech}
-                onClick={() => setFilter(tech)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  filter === tech
-                    ? 'bg-primary-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                {tech}
-              </button>
+              <FilterButton key={tech} value={tech} label={tech} />
             ))}
           </div>
 
-          {/* Projects Grid */}
           {filterProjects(projects).length === 0 ? (
-            <div className="text-center text-gray-600">
+            <div className={`text-center ${theme.textSecondary}`}>
               <p>No projects found for this filter.</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filterProjects(projects).map((project) => (
-                <div key={project.id} className="card group">
+                <div key={project.id} className={`${theme.cardBg} rounded-lg ${theme.shadow} p-6 hover:shadow-lg transition-all group ${theme.name === 'dark' ? 'border border-gray-700' : ''}`}>
+                  <div className="flex items-start justify-between gap-2 mb-4">
+                    <Link href={`/projects/${project.id}`}>
+                      <h3 className={theme.name === 'light'
+                        ? 'text-xl font-bold text-gray-900 flex-1 hover:text-primary-600 transition-colors cursor-pointer'
+                        : 'text-xl font-bold text-gray-100 flex-1 hover:text-primary-400 transition-colors cursor-pointer'
+                      }>
+                        {project.title}
+                      </h3>
+                    </Link>
+                    {project.featured && (
+                      <span className={`${theme.primary} text-white px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap`}>
+                        ⭐ Featured
+                      </span>
+                    )}
+                  </div>
+
                   <Link href={`/projects/${project.id}`}>
-                    <div className="relative overflow-hidden rounded-lg mb-4 cursor-pointer aspect-video bg-gray-100">
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        className="object-contain transition-transform duration-300 group-hover:scale-105"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                      {project.featured && (
-                        <span className="absolute top-3 right-3 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg z-10">
-                          ⭐ Featured
-                        </span>
+                    <div className={`relative overflow-hidden rounded-lg mb-4 cursor-pointer aspect-video ${theme.name === 'light' ? 'bg-gray-100' : 'bg-gray-700'}`}>
+                      {project.image ? (
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          className="object-contain transition-transform duration-300 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full bg-gradient-to-br from-primary-500 to-primary-700 p-6">
+                          <h3 className="text-white text-xl md:text-2xl font-bold text-center">
+                            {project.title}
+                          </h3>
+                        </div>
                       )}
                     </div>
                   </Link>
 
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <Link href={`/projects/${project.id}`}>
-                      <h3 className="text-xl font-bold text-gray-900 flex-1 hover:text-primary-600 transition-colors cursor-pointer">
-                        {project.title}
-                      </h3>
-                    </Link>
-                  </div>
-
-                  <p className="text-gray-600 mb-4 line-clamp-3">
+                  <p className={`${theme.textSecondary} mb-4 line-clamp-3 transition-colors`}>
                     {project.description}
                   </p>
 
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm"
-                      >
+                      <span key={tech} className={`px-3 py-1 ${theme.techBadgeBg} ${theme.techBadgeText} rounded-full text-sm transition-colors`}>
                         {tech}
                       </span>
                     ))}
@@ -114,7 +112,10 @@ export default function Projects({ projects, allTechnologies }) {
                   <div className="flex gap-4">
                     <Link
                       href={`/projects/${project.id}`}
-                      className="text-primary-600 hover:text-primary-700 font-medium"
+                      className={theme.name === 'light' 
+                        ? 'text-primary-600 hover:text-primary-700 font-medium transition-colors'
+                        : 'text-primary-400 hover:text-primary-300 font-medium transition-colors'
+                      }
                     >
                       View Details →
                     </Link>
@@ -123,7 +124,10 @@ export default function Projects({ projects, allTechnologies }) {
                         href={project.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-gray-700 font-medium"
+                        className={theme.name === 'light'
+                          ? 'text-gray-600 hover:text-gray-900 font-medium transition-colors'
+                          : 'text-gray-300 hover:text-gray-100 font-medium transition-colors'
+                        }
                         onClick={(e) => e.stopPropagation()}
                       >
                         Live Demo →
@@ -134,7 +138,10 @@ export default function Projects({ projects, allTechnologies }) {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-gray-700 font-medium"
+                        className={theme.name === 'light'
+                          ? 'text-gray-600 hover:text-gray-900 font-medium transition-colors'
+                          : 'text-gray-300 hover:text-gray-100 font-medium transition-colors'
+                        }
                         onClick={(e) => e.stopPropagation()}
                       >
                         GitHub →
@@ -151,13 +158,11 @@ export default function Projects({ projects, allTechnologies }) {
   );
 }
 
-// Static generation at build time
 export async function getStaticProps() {
   try {
     await dbConnect();
     const projects = await Project.find({}).sort({ order: 1, createdAt: -1 }).lean();
 
-    // Deep serialize to convert all ObjectIds to strings
     const serializedProjects = JSON.parse(JSON.stringify(projects, (key, value) => {
       if (key === '_id' || key === 'id') {
         return value.toString();
@@ -177,7 +182,7 @@ export async function getStaticProps() {
         projects: serializedProjects,
         allTechnologies,
       },
-      revalidate: 3600, // Revalidate every hour
+      revalidate: 3600,
     };
   } catch (error) {
     console.error('Error fetching projects:', error);

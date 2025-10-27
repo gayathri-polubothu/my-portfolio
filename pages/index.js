@@ -3,12 +3,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import dbConnect from '../lib/dbConnect';
 import Project from '../models/Project';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function Home({ featuredProjects }) {
+  const { theme } = useTheme();
+  
   return (
     <Layout title="About | Gayathri Polubothu">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-50 to-primary-100 py-20">
+      <section className={`bg-gradient-to-br ${theme.gradient} py-12 transition-colors duration-300`}>
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
             {/* Profile Image */}
@@ -24,18 +27,18 @@ export default function Home({ featuredProjects }) {
                 />
               </div>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className={`text-5xl md:text-6xl font-bold ${theme.text} mb-6 transition-colors`}>
               Hi, I'm{' '}
-              <span className="text-primary-600">Gayathri Polubothu</span>
+              <span className={theme.primaryText}>Gayathri Polubothu</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-700 mb-8">
+            <p className={`text-xl md:text-2xl ${theme.textSecondary} mb-8 transition-colors`}>
               Full Stack Developer | React | Next.js | Node.js | MongoDB
             </p>
-            <div className="text-lg text-gray-600 mb-12 text-left max-w-3xl mx-auto">
-              <p className="mb-4">
+            <div className={`text-lg ${theme.textSecondary} mb-12 text-left max-w-3xl mx-auto transition-colors`}>
+              <p className={`mb-4 ${theme.textSecondary}`}>
                 Experienced Full Stack Developer with over 9 years of hands-on experience in frontend, backend, and full-stack development roles. Skilled in building modern, scalable web applications using React.js, Angular, Node.js, and microservice-based architectures. Proficient in both RESTful and GraphQL API integrations, with a strong focus on performance, usability, and maintainable code.
               </p>
-              <p>
+              <p className={theme.textSecondary}>
                 Currently working at ZORO UK, where I contribute to developing and optimizing e-commerce solutions that enhance user experience and support complex business workflows.
               </p>
             </div>
@@ -43,7 +46,7 @@ export default function Home({ featuredProjects }) {
               <Link href="/projects" className="btn-primary">
                 View My Work
               </Link>
-              <Link href="/contact" className="btn-secondary">
+              <Link href="/contact" className={`btn-secondary ${theme.buttonSecondary}`}>
                 Get In Touch
               </Link>
             </div>
@@ -52,9 +55,9 @@ export default function Home({ featuredProjects }) {
       </section>
 
       {/* Skills Section */}
-      <section className="py-20 bg-white">
+      <section className={`py-12 ${theme.cardBg} transition-colors duration-300`}>
         <div className="container-custom">
-          <h2 className="section-title text-center">Skills & Technologies</h2>
+          <h2 className={`section-title text-center ${theme.text} transition-colors`}>Skills & Technologies</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {[
               'React',
@@ -68,9 +71,9 @@ export default function Home({ featuredProjects }) {
             ].map((skill) => (
               <div
                 key={skill}
-                className="card text-center hover:scale-105 transition-transform"
+                className={`${theme.cardBg} rounded-lg ${theme.shadow} p-6 text-center hover:scale-105 transition-all ${theme.name === 'dark' ? 'border border-gray-700' : 'border border-gray-200'}`}
               >
-                <p className="font-semibold text-gray-800">{skill}</p>
+                <p className={`font-semibold ${theme.text}`}>{skill}</p>
               </div>
             ))}
           </div>
@@ -78,21 +81,21 @@ export default function Home({ featuredProjects }) {
       </section>
 
       {/* Featured Projects Section */}
-      <section className="py-20 bg-gray-50">
+      <section className={`py-12 ${theme.background} transition-colors duration-300`}>
         <div className="container-custom">
-          <h2 className="section-title text-center">Featured Projects</h2>
+          <h2 className={`section-title text-center ${theme.text} transition-colors`}>Featured Projects</h2>
 
           {featuredProjects.length === 0 && (
-            <p className="text-center text-gray-600">
+            <p className={`text-center ${theme.textSecondary}`}>
               No featured projects yet. Check back soon!
             </p>
           )}
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProjects.map((project) => (
-              <div key={project.id} className="card group">
+              <div key={project.id} className={`${theme.cardBg} rounded-lg ${theme.shadow} p-6 hover:shadow-lg transition-all group ${theme.name === 'dark' ? 'border border-gray-700' : ''}`}>
                 <Link href={`/projects/${project.id}`}>
-                  <div className="relative overflow-hidden rounded-lg mb-4 aspect-video bg-gray-100">
+                  <div className={`relative overflow-hidden rounded-lg mb-4 aspect-video ${theme.name === 'light' ? 'bg-gray-100' : 'bg-gray-700'}`}>
                     <Image
                       src={project.image}
                       alt={project.title}
@@ -100,20 +103,20 @@ export default function Home({ featuredProjects }) {
                       className="object-contain transition-transform duration-300 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                    <span className="absolute top-3 right-3 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg z-10">
+                    <span className={`absolute top-3 right-3 ${theme.primary} text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg z-10`}>
                       ⭐ Featured
                     </span>
                   </div>
                 </Link>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className={`text-xl font-bold ${theme.text} mb-2 transition-colors`}>
                   {project.title}
                 </h3>
-                <p className="text-gray-600 mb-4">{project.description}</p>
+                <p className={`${theme.textSecondary} mb-4 transition-colors`}>{project.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tech.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm"
+                      className={`px-3 py-1 ${theme.techBadgeBg} ${theme.techBadgeText} rounded-full text-sm transition-colors`}
                     >
                       {tech}
                     </span>
@@ -122,7 +125,10 @@ export default function Home({ featuredProjects }) {
                 <div className="flex gap-4">
                   <Link
                     href={`/projects/${project.id}`}
-                    className="text-primary-600 hover:text-primary-700 font-medium"
+                    className={theme.name === 'light' 
+                      ? 'text-primary-600 hover:text-primary-700 font-medium transition-colors'
+                      : 'text-primary-400 hover:text-primary-300 font-medium transition-colors'
+                    }
                   >
                     View Details →
                   </Link>
@@ -131,7 +137,10 @@ export default function Home({ featuredProjects }) {
                       href={project.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-gray-700 font-medium"
+                      className={theme.name === 'light'
+                        ? 'text-gray-600 hover:text-gray-900 font-medium transition-colors'
+                        : 'text-gray-300 hover:text-gray-100 font-medium transition-colors'
+                      }
                     >
                       Live Demo →
                     </a>
@@ -141,7 +150,10 @@ export default function Home({ featuredProjects }) {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-gray-700 font-medium"
+                      className={theme.name === 'light'
+                        ? 'text-gray-600 hover:text-gray-900 font-medium transition-colors'
+                        : 'text-gray-300 hover:text-gray-100 font-medium transition-colors'
+                      }
                     >
                       GitHub →
                     </a>
@@ -152,7 +164,7 @@ export default function Home({ featuredProjects }) {
           </div>
 
           <div className="text-center mt-12">
-            <Link href="/projects" className="btn-primary">
+            <Link href="/projects" className="btn-primary inline-block">
               View All Projects
             </Link>
           </div>
@@ -160,17 +172,17 @@ export default function Home({ featuredProjects }) {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary-600">
+      <section className={`py-12 ${theme.primary} transition-colors duration-300`}>
         <div className="container-custom text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Let's Work Together
           </h2>
-          <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white opacity-90 mb-8 max-w-2xl mx-auto">
             I'm always interested in hearing about new projects and opportunities.
           </p>
           <Link
             href="/contact"
-            className="inline-block bg-white text-primary-600 px-8 py-4 rounded-lg font-medium hover:bg-gray-100 transition-colors"
+            className={`inline-block ${theme.cardBg} ${theme.primaryText} px-8 py-4 rounded-lg font-medium hover:opacity-90 transition-all`}
           >
             Contact Me
           </Link>

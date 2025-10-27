@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
+import { useTheme } from '../contexts/ThemeContext';
 
 const CREATE_CONTACT_MUTATION = gql`
   mutation CreateContact($name: String!, $email: String!, $message: String!) {
@@ -16,6 +17,7 @@ const CREATE_CONTACT_MUTATION = gql`
 `;
 
 export default function ContactForm() {
+  const { theme } = useTheme();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -74,9 +76,9 @@ export default function ContactForm() {
       )}
 
       {/* Contact Form */}
-      <form onSubmit={handleSubmit} className="card">
+      <form onSubmit={handleSubmit} className={`${theme.cardBg} rounded-lg ${theme.shadow} p-6 transition-all ${theme.name === 'dark' ? 'border border-gray-700' : ''}`}>
         <div className="mb-6">
-          <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+          <label htmlFor="name" className={`block ${theme.text} font-medium mb-2 transition-colors`}>
             Name *
           </label>
           <input
@@ -86,13 +88,13 @@ export default function ContactForm() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
+            className={`w-full px-4 py-3 border ${theme.name === 'light' ? 'border-gray-300 bg-white text-gray-900' : 'border-gray-600 bg-gray-700 text-gray-100'} rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition`}
             placeholder="Your name"
           />
         </div>
 
         <div className="mb-6">
-          <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+          <label htmlFor="email" className={`block ${theme.text} font-medium mb-2 transition-colors`}>
             Email *
           </label>
           <input
@@ -102,13 +104,13 @@ export default function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
+            className={`w-full px-4 py-3 border ${theme.name === 'light' ? 'border-gray-300 bg-white text-gray-900' : 'border-gray-600 bg-gray-700 text-gray-100'} rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition`}
             placeholder="your.email@example.com"
           />
         </div>
 
         <div className="mb-6">
-          <label htmlFor="message" className="block text-gray-700 font-medium mb-2">
+          <label htmlFor="message" className={`block ${theme.text} font-medium mb-2 transition-colors`}>
             Message *
           </label>
           <textarea
@@ -118,7 +120,7 @@ export default function ContactForm() {
             onChange={handleChange}
             required
             rows="6"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition resize-none"
+            className={`w-full px-4 py-3 border ${theme.name === 'light' ? 'border-gray-300 bg-white text-gray-900' : 'border-gray-600 bg-gray-700 text-gray-100'} rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition resize-none`}
             placeholder="Your message..."
           ></textarea>
         </div>

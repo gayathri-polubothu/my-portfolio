@@ -53,6 +53,10 @@ const ProjectSchema = new mongoose.Schema(
       }],
       default: [],
     },
+    keyResponsibilities: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: true,

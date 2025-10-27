@@ -1,13 +1,17 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTheme } from '../contexts/ThemeContext';
+import ThemeToggle from './ThemeToggle';
 
 export default function Layout({ children, title = 'My Portfolio' }) {
   const router = useRouter();
+  const { theme } = useTheme();
 
   const navItems = [
     { name: 'About', path: '/' },
     { name: 'Projects', path: '/projects' },
+    { name: 'Certifications', path: '/certifications' },
     { name: 'Resume', path: '/resume' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -21,31 +25,36 @@ export default function Layout({ children, title = 'My Portfolio' }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <div className="min-h-screen flex flex-col">
+      <div className={`min-h-screen flex flex-col ${theme.background} transition-colors duration-300`}>
         {/* Navigation */}
-        <nav className="bg-white shadow-sm sticky top-0 z-50">
+        <nav className={`${theme.navBg} ${theme.shadow} sticky top-0 z-50 transition-colors duration-300`}>
           <div className="container-custom">
             <div className="flex justify-between items-center h-16">
-              <Link href="/" className="text-xl font-bold text-primary-600">
+              <Link href="/" className={`text-xl font-bold ${theme.primaryText} transition-colors`}>
                 Gayathri Polubothu
               </Link>
 
-              <ul className="flex space-x-8">
-                {navItems.map((item) => (
-                  <li key={item.path}>
-                    <Link
-                      href={item.path}
-                      className={`font-medium transition-colors ${
-                        isActive(item.path)
-                          ? 'text-primary-600'
-                          : 'text-gray-600 hover:text-primary-600'
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <div className="flex items-center space-x-6">
+                <ul className="flex space-x-8">
+                  {navItems.map((item) => (
+                    <li key={item.path}>
+                      <Link
+                        href={item.path}
+                        className={`font-medium transition-colors ${
+                          isActive(item.path)
+                            ? theme.primaryText
+                            : theme.name === 'light'
+                            ? 'text-gray-600 hover:text-primary-600'
+                            : 'text-gray-300 hover:text-primary-400'
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <ThemeToggle />
+              </div>
             </div>
           </div>
         </nav>
@@ -54,7 +63,7 @@ export default function Layout({ children, title = 'My Portfolio' }) {
         <main className="flex-1">{children}</main>
 
         {/* Footer */}
-        <footer className="bg-gray-900 text-white py-8">
+        <footer className={`${theme.footerBg} ${theme.footerText} py-8 transition-colors duration-300`}>
           <div className="container-custom">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-400">

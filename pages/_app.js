@@ -1,13 +1,16 @@
 import '../styles/globals.css';
 import { ApolloProvider } from '@apollo/client';
 import createApolloClient from '../lib/apollo-client';
+import { ThemeProvider } from '../contexts/ThemeContext';
 
 const client = createApolloClient();
 
 function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client}>
-      <Component {...pageProps} />
+      <ThemeProvider>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </ApolloProvider>
   );
 }
