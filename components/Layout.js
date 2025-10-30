@@ -1,12 +1,14 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import ThemeToggle from './ThemeToggle';
 
 export default function Layout({ children, title = 'My Portfolio' }) {
   const router = useRouter();
   const { theme } = useTheme();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
     { name: 'About', path: '/' },
@@ -17,6 +19,14 @@ export default function Layout({ children, title = 'My Portfolio' }) {
   ];
 
   const isActive = (path) => router.pathname === path;
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <>
@@ -30,11 +40,17 @@ export default function Layout({ children, title = 'My Portfolio' }) {
         <nav className={`${theme.navBg} ${theme.shadow} sticky top-0 z-50 transition-colors duration-300`}>
           <div className="container-custom">
             <div className="flex justify-between items-center h-16">
-              <Link href="/" className={`text-xl font-bold ${theme.primaryText} transition-colors`}>
+              {/* Logo */}
+              <Link 
+                href="/" 
+                className={`text-xl font-bold ${theme.primaryText} transition-colors hover:opacity-80`}
+                onClick={closeMobileMenu}
+              >
                 Gayathri Polubothu
               </Link>
 
-              <div className="flex items-center space-x-6">
+              {/* Desktop Navigation */}
+              <div className="hidden md:flex items-center space-x-6">
                 <ul className="flex space-x-8">
                   {navItems.map((item) => (
                     <li key={item.path}>
@@ -55,9 +71,77 @@ export default function Layout({ children, title = 'My Portfolio' }) {
                 </ul>
                 <ThemeToggle />
               </div>
+
+              {/* Mobile Menu Button & Theme Toggle */}
+              <div className="md:hidden flex items-center space-x-4">
+                <ThemeToggle />
+                <button
+                  onClick={toggleMobileMenu}
+                  className={`p-2 rounded-lg ${theme.name === 'light' ? 'hover:bg-gray-100' : 'hover:bg-gray-700'} transition-colors`}
+                  aria-label="Toggle mobile menu"
+                >
+                  <svg
+                    className={`w-6 h-6 ${theme.text}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    {isMobileMenuOpen ? (
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    ) : (
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    )}
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Menu */}
+            <div
+              className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+                isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              }`}
+            >
+              <ul className="py-4 space-y-2">
+                {navItems.map((item) => (
+                  <li key={item.path}>
+                    <Link
+                      href={item.path}
+                      onClick={closeMobileMenu}
+                      className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                        isActive(item.path)
+                          ? `${theme.primary} text-white`
+                          : theme.name === 'light'
+                          ? 'text-gray-700 hover:bg-gray-100'
+                          : 'text-gray-300 hover:bg-gray-700'
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </nav>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div
+            className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={closeMobileMenu}
+          />
+        )}
 
         {/* Main Content */}
         <main className="flex-1">{children}</main>
