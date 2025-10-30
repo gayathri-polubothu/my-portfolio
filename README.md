@@ -2,6 +2,15 @@
 
 A modern, full-stack portfolio website built with Next.js, MongoDB, GraphQL, and Tailwind CSS.
 
+## 🌐 Live Demo
+
+**Visit my portfolio:** [https://gayathri-polubothu-portfolio.vercel.app](https://gayathri-polubothu-portfolio.vercel.app)
+
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://gayathri-polubothu-portfolio.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+
 ## 🚀 Features
 
 - **Modern UI**: Beautiful, responsive design with Tailwind CSS
@@ -156,6 +165,8 @@ curl -X POST http://localhost:3000/api/projects \
 
 ### Deploy to Vercel (Recommended - Free)
 
+**Live Demo:** [https://gayathri-polubothu-portfolio.vercel.app](https://gayathri-polubothu-portfolio.vercel.app)
+
 1. Push your code to GitHub
 
 2. Go to [Vercel](https://vercel.com)
@@ -170,11 +181,17 @@ curl -X POST http://localhost:3000/api/projects \
 
 ### Environment Variables on Vercel
 
-Add these in Vercel dashboard:
-- `MONGODB_URI`
-- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`
-- `CLOUDINARY_API_KEY`
-- `CLOUDINARY_API_SECRET`
+Add these **exact** variable names in Vercel dashboard (Production, Preview, and Development):
+
+- `MONGODB_URI` - Your MongoDB Atlas connection string
+- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` - Cloudinary cloud name (⚠️ Note: NEXT_PUBLIC_ prefix is required!)
+- `CLOUDINARY_API_KEY` - Cloudinary API key
+- `CLOUDINARY_API_SECRET` - Cloudinary API secret
+- `EMAIL_USER` - Gmail address for contact form
+- `EMAIL_PASS` - Gmail app password (get from https://myaccount.google.com/apppasswords)
+- `EMAIL_TO` - Email address to receive contact form submissions
+
+**Important:** After adding environment variables, redeploy your site for changes to take effect.
 
 ## 📸 Adding Screenshots
 
