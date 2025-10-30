@@ -14,7 +14,9 @@ const workExperience = [
       'Implemented proforma payment method on checkout/order pages end-to-end',
       'Built microservice-based architectures for scalable applications',
       'Led frontend development using React.js and Angular frameworks',
-      'Collaborated with cross-functional teams to deliver complex business workflows'
+      'Collaborated with cross-functional teams to deliver complex business workflows',
+      'Resolved production issues and provided IT support during quarterly maintenance cycles',
+      'Managed bug fixes and ticket assignments to ensure system reliability'
     ]
   },
   {

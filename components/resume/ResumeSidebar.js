@@ -34,6 +34,18 @@ function ResumeSidebar() {
             <h4 className={`text-sm font-semibold ${theme.text} mb-2`}>Database & Cloud</h4>
             <SkillBadge skills={SKILLS.database} theme={theme} size="small" />
           </div>
+          {SKILLS.IOT && (
+            <div>
+              <h4 className={`text-sm font-semibold ${theme.text} mb-2`}>IoT</h4>
+              <SkillBadge skills={SKILLS.IOT} theme={theme} size="small" />
+            </div>
+          )}
+          {SKILLS.eventdriven && (
+            <div>
+              <h4 className={`text-sm font-semibold ${theme.text} mb-2`}>Event-Driven Architecture</h4>
+              <SkillBadge skills={SKILLS.eventdriven} theme={theme} size="small" />
+            </div>
+          )}
         </div>
       </section>
 

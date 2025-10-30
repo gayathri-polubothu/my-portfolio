@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useTheme } from '../../contexts/ThemeContext';
 import { SOCIAL_LINKS } from '../../lib/constants';
 
 const icons = {
@@ -14,23 +15,28 @@ const icons = {
 };
 
 function SocialLinks({ variant = 'button', className = '' }) {
+  const { theme } = useTheme();
+  
   if (variant === 'button') {
     return (
       <div className={`flex flex-wrap gap-4 justify-center items-center ${className}`}>
-        {SOCIAL_LINKS.map((link) => (
-          <a
-            key={link.name}
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`inline-flex items-center px-5 py-2.5 ${link.color} text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium`}
-          >
-            <svg className="w-5 h-5 mr-2" fill={link.icon === 'briefcase' ? 'none' : 'currentColor'} stroke={link.icon === 'briefcase' ? 'currentColor' : 'none'} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              {icons[link.icon]}
-            </svg>
-            {link.name}
-          </a>
-        ))}
+        {SOCIAL_LINKS.map((link) => {
+          const colorClass = typeof link.color === 'string' ? link.color : link.color[theme.name];
+          return (
+            <a
+              key={link.name}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center px-5 py-2.5 ${colorClass} rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium`}
+            >
+              <svg className="w-5 h-5 mr-2" fill={link.icon === 'briefcase' ? 'none' : 'currentColor'} stroke={link.icon === 'briefcase' ? 'currentColor' : 'none'} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                {icons[link.icon]}
+              </svg>
+              {link.name}
+            </a>
+          );
+        })}
       </div>
     );
   }
