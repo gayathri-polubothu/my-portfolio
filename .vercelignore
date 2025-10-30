@@ -15,6 +15,10 @@ public/course_certifications/
 public/MyImage/
 public/README.txt
 
+# IMPORTANT: Keep PDF resume in deployment
+!public/*.pdf
+!public/**/*.pdf
+
 # Git files
 .git
 .gitignore
