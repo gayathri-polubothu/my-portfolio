@@ -1,0 +1,31 @@
+# .vercelignore
+# Files and directories to exclude from Vercel deployment
+# This reduces bundle size and improves deployment speed
+
+# Documentation files (not needed in production)
+*.md
+!README.md
+*.txt
+
+# Development scripts (only for local use)
+scripts/
+
+# Images (hosted on Cloudinary instead)
+public/course_certifications/
+public/MyImage/
+public/README.txt
+
+# Git files
+.git
+.gitignore
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+

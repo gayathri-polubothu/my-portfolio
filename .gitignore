@@ -35,3 +35,20 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Documentation and notes (not needed in repo)
+*.md
+!README.md
+*.txt
+GITHUB_COMMANDS.txt
+TOKEN_SETUP.txt
+FIX_TOKEN.txt
+NEXT_STEPS.txt
+
+# Scripts (only for local development)
+/scripts/
+
+# Images (should be hosted on Cloudinary)
+/public/course_certifications/
+/public/MyImage/
+/public/README.txt
+
