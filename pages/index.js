@@ -18,7 +18,7 @@ export default function Home({ featuredProjects }) {
             <div className="mb-8 flex justify-center">
               <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white shadow-lg">
                 <Image
-                  src="https://res.cloudinary.com/db9baiycp/image/upload/v1/portfolio/profile.png"
+                  src="https://res.cloudinary.com/db9baiycp/image/upload/v1761338342/IMG_1314_c9zf2z.jpg"
                   alt="Gayathri Polubothu"
                   fill
                   className="object-cover"
