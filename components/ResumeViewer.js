@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function ResumeViewer({ pdfUrl = '/Gayathri_Polubothu_CV.pdf' }) {
+export default function ResumeViewer({ pdfUrl = 'https://res.cloudinary.com/db9baiycp/raw/upload/v1761823454/portfolio/Gayathri_Polubothu_CV.pdf' }) {
   const [pdfError, setPdfError] = useState(false);
 
   const handleDownload = () => {
