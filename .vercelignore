@@ -15,10 +15,6 @@ public/course_certifications/
 public/MyImage/
 public/README.txt
 
-# IMPORTANT: Keep PDF resume in deployment
-!public/*.pdf
-!public/**/*.pdf
-
 # Git files
 .git
 .gitignore
@@ -32,4 +28,7 @@ public/README.txt
 # OS files
 .DS_Store
 Thumbs.db
+
+# IMPORTANT: PDF resume MUST be included - do NOT ignore
+# (Vercel includes all tracked Git files by default, this just ensures no accidental exclusion)
 
