@@ -1,18 +1,6 @@
-import dynamic from 'next/dynamic';
 import Layout from '../components/Layout';
+import CustomResume from '../components/CustomResume';
 import { useTheme } from '../contexts/ThemeContext';
-
-// Dynamically import ResumeViewer (client-side only for PDF and download interactions)
-const ResumeViewer = dynamic(() => import('../components/ResumeViewer'), {
-  loading: () => (
-    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
-      <div className="relative w-full bg-gray-100 flex items-center justify-center" style={{ minHeight: '900px' }}>
-        <div className="text-gray-400">Loading resume viewer...</div>
-      </div>
-    </div>
-  ),
-  ssr: false,
-});
 
 export default function Resume() {
   const { theme } = useTheme();
@@ -20,18 +8,18 @@ export default function Resume() {
   return (
     <Layout title="Resume | Gayathri Polubothu">
       <section className={`py-12 ${theme.background} min-h-screen transition-colors duration-300`}>
-        <div className="container-custom max-w-6xl">
+        <div className="container-custom max-w-7xl">
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className={`text-5xl md:text-6xl font-bold ${theme.text} mb-4 transition-colors`}>
               My Resume
             </h1>
             <p className={`text-xl ${theme.textSecondary} mb-6 transition-colors`}>
-              Professional Curriculum Vitae
+              Professional Experience & Qualifications
             </p>
             
             {/* Social Media Links */}
-            <div className="flex flex-wrap gap-4 justify-center items-center mt-6 mb-2">
+            <div className="flex flex-wrap gap-4 justify-center items-center mt-6 mb-8">
               <a
                 href="https://www.linkedin.com/in/gayathri-polubothu/"
                 target="_blank"
@@ -70,14 +58,14 @@ export default function Resume() {
             </div>
           </div>
 
-          {/* Main Resume Display - Dynamically loaded */}
-          <ResumeViewer />
+          {/* Custom Resume Component */}
+          <CustomResume />
 
           {/* Additional Info */}
-          <div className="mt-8 text-center">
-            <div className="inline-flex items-center px-6 py-3 bg-white rounded-full shadow-md">
+          <div className="mt-12 text-center">
+            <div className={`inline-flex items-center px-6 py-3 ${theme.cardBg} rounded-full shadow-md transition-colors`}>
               <svg
-                className="w-5 h-5 mr-2 text-blue-600"
+                className={`w-5 h-5 mr-2 ${theme.primaryText}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -90,7 +78,7 @@ export default function Resume() {
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <p className="text-gray-700 font-medium">
+              <p className={`${theme.text} font-medium transition-colors`}>
                 Last updated: {new Date().toLocaleDateString('en-US', { 
                   year: 'numeric', 
                   month: 'long', 
