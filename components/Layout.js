@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import ThemeToggle from './ThemeToggle';
+import SocialLinks from './common/SocialLinks';
+import { PERSONAL_INFO } from '../lib/constants';
 
 export default function Layout({ children, title = 'My Portfolio' }) {
   const router = useRouter();
@@ -151,39 +153,9 @@ export default function Layout({ children, title = 'My Portfolio' }) {
           <div className="container-custom">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-400">
-                © {new Date().getFullYear()} Gayathri Polubothu. All rights reserved.
+                © {new Date().getFullYear()} {PERSONAL_INFO.name}. All rights reserved.
               </p>
-              <div className="flex flex-wrap justify-center gap-4 md:gap-6 mt-4 md:mt-0">
-                <a
-                  href="https://github.com/gayathri-polubothu"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  GitHub
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/gayathri-polubothu/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  LinkedIn
-                </a>
-                <a
-                  href="mailto:gayathri.polubothu@gmail.com"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Email
-                </a>
-                <a
-                  href="/Gayathri_Polubothu_CV.pdf"
-                  download
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Resume
-                </a>
-              </div>
+              <SocialLinks variant="simple" className="mt-4 md:mt-0" />
             </div>
           </div>
         </footer>
