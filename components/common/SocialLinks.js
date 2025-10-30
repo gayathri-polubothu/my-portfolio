@@ -21,19 +21,20 @@ function SocialLinks({ variant = 'button', className = '' }) {
     return (
       <div className={`flex flex-wrap gap-4 justify-center items-center ${className}`}>
         {SOCIAL_LINKS.map((link) => {
-          const colorClass = typeof link.color === 'string' ? link.color : link.color[theme.name];
+          const bgColorClass = link.bgColor[theme.name];
           return (
             <a
               key={link.name}
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center px-5 py-2.5 ${colorClass} rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium`}
+              className={`inline-flex items-center px-5 py-2.5 ${bgColorClass} ${link.textColor} rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium`}
+              style={{ color: 'white' }}
             >
               <svg className="w-5 h-5 mr-2" fill={link.icon === 'briefcase' ? 'none' : 'currentColor'} stroke={link.icon === 'briefcase' ? 'currentColor' : 'none'} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 {icons[link.icon]}
               </svg>
-              {link.name}
+              <span style={{ color: 'white' }}>{link.name}</span>
             </a>
           );
         })}
