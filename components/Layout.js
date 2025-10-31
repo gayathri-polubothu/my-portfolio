@@ -13,11 +13,51 @@ export default function Layout({ children, title = 'My Portfolio' }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { name: 'About', path: '/' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Certifications', path: '/certifications' },
-    { name: 'Resume', path: '/resume' },
-    { name: 'Contact', path: '/contact' },
+    { 
+      name: 'About', 
+      path: '/',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      )
+    },
+    { 
+      name: 'Projects', 
+      path: '/projects',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+      )
+    },
+    { 
+      name: 'Certifications', 
+      path: '/certifications',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+        </svg>
+      )
+    },
+    { 
+      name: 'Resume', 
+      path: '/resume',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      )
+    },
+    { 
+      name: 'Contact', 
+      path: '/contact',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      )
+    },
   ];
 
   const isActive = (path) => router.pathname === path;
@@ -58,7 +98,7 @@ export default function Layout({ children, title = 'My Portfolio' }) {
                     <li key={item.path}>
                       <Link
                         href={item.path}
-                        className={`font-medium transition-colors ${
+                        className={`font-medium transition-colors flex items-center gap-2 ${
                           isActive(item.path)
                             ? theme.primaryText
                             : theme.name === 'light'
@@ -66,6 +106,7 @@ export default function Layout({ children, title = 'My Portfolio' }) {
                             : 'text-gray-300 hover:text-primary-400'
                         }`}
                       >
+                        {item.icon}
                         {item.name}
                       </Link>
                     </li>
@@ -120,7 +161,7 @@ export default function Layout({ children, title = 'My Portfolio' }) {
                     <Link
                       href={item.path}
                       onClick={closeMobileMenu}
-                      className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
                         isActive(item.path)
                           ? `${theme.primary} text-white`
                           : theme.name === 'light'
@@ -128,6 +169,7 @@ export default function Layout({ children, title = 'My Portfolio' }) {
                           : 'text-gray-300 hover:bg-gray-700'
                       }`}
                     >
+                      {item.icon}
                       {item.name}
                     </Link>
                   </li>

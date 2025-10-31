@@ -1,6 +1,7 @@
 import Layout from '../components/Layout';
 import Link from 'next/link';
 import Image from 'next/image';
+import ProjectCard from '../components/common/ProjectCard';
 import dbConnect from '../lib/dbConnect';
 import Project from '../models/Project';
 import { useTheme } from '../contexts/ThemeContext';
@@ -97,73 +98,7 @@ export default function Home({ featuredProjects }) {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProjects.map((project) => (
-              <div key={project.id} className={`${theme.cardBg} rounded-lg ${theme.shadow} p-6 hover:shadow-lg transition-all group ${theme.name === 'dark' ? 'border border-gray-700' : ''}`}>
-                <Link href={`/projects/${project.id}`}>
-                  <div className={`relative overflow-hidden rounded-lg mb-4 aspect-video ${theme.name === 'light' ? 'bg-gray-100' : 'bg-gray-700'}`}>
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-contain transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    <span className={`absolute top-3 right-3 ${theme.primary} text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg z-10`}>
-                      ⭐ Featured
-                    </span>
-                  </div>
-                </Link>
-                <h3 className={`text-xl font-bold ${theme.text} mb-2 transition-colors`}>
-                  {project.title}
-                </h3>
-                <p className={`${theme.textSecondary} mb-4 transition-colors`}>{project.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech) => (
-                    <span
-                      key={tech}
-                      className={`px-3 py-1 ${theme.techBadgeBg} ${theme.techBadgeText} rounded-full text-sm transition-colors`}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex gap-4">
-                  <Link
-                    href={`/projects/${project.id}`}
-                    className={theme.name === 'light' 
-                      ? 'text-primary-600 hover:text-primary-700 font-medium transition-colors'
-                      : 'text-primary-400 hover:text-primary-300 font-medium transition-colors'
-                    }
-                  >
-                    View Details →
-                  </Link>
-                  {project.demoUrl && (
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={theme.name === 'light'
-                        ? 'text-gray-600 hover:text-gray-900 font-medium transition-colors'
-                        : 'text-gray-300 hover:text-gray-100 font-medium transition-colors'
-                      }
-                    >
-                      Live Demo →
-                    </a>
-                  )}
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={theme.name === 'light'
-                        ? 'text-gray-600 hover:text-gray-900 font-medium transition-colors'
-                        : 'text-gray-300 hover:text-gray-100 font-medium transition-colors'
-                      }
-                    >
-                      GitHub →
-                    </a>
-                  )}
-                </div>
-              </div>
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
 

@@ -32,6 +32,12 @@ const ProjectSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    projectType: {
+      type: String,
+      enum: ['professional', 'personal'],
+      default: 'professional',
+      required: true,
+    },
     order: {
       type: Number,
       default: 0,
