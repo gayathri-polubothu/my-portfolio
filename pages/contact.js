@@ -26,9 +26,12 @@ export default function Contact() {
         <div className="container-custom">
           <div className="max-w-2xl mx-auto">
             <h1 className={`section-title text-center ${theme.text} transition-colors`}>Get In Touch</h1>
-            <p className={`text-center ${theme.textSecondary} mb-12 transition-colors`}>
+            <p className={`text-center ${theme.textSecondary} mb-4 transition-colors`}>
               Have a question or want to work together? Fill out the form below and I'll
               get back to you as soon as possible.
+            </p>
+            <p className={`text-center ${theme.text} font-medium mb-12 transition-colors`}>
+              Currently seeking Fullstack, Frontend, and Backend Developer roles in London. Open to full-time opportunities with hybrid working arrangements.
             </p>
 
             {/* Dynamically loaded ContactForm */}

@@ -12,9 +12,12 @@ function ResumeSidebar() {
       {/* Profile Summary */}
       <section>
         <SectionHeader title="PROFILE" theme={theme} />
-        <p className={`text-sm ${theme.textSecondary} leading-relaxed`}>
+        <p className={`text-sm ${theme.textSecondary} leading-relaxed mb-3`}>
           Experienced Full Stack Developer with over 9 years of hands-on experience in frontend, backend, and full-stack development roles. 
           Skilled in building modern, scalable web applications using React.js, Angular, Node.js, and microservice-based architectures.
+        </p>
+        <p className={`text-sm ${theme.text} font-semibold`}>
+          Currently seeking Fullstack, Frontend, or Backend Developer positions in London. Open to full-time opportunities with hybrid working arrangements.
         </p>
       </section>
 

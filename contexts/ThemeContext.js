@@ -46,13 +46,16 @@ export const themes = {
 };
 
 export function ThemeProvider({ children }) {
-  const [currentTheme, setCurrentTheme] = useState('light');
+  const [currentTheme, setCurrentTheme] = useState('dark');
 
   useEffect(() => {
     // Load theme from localStorage on mount
     const savedTheme = localStorage.getItem('portfolio-theme');
     if (savedTheme && themes[savedTheme]) {
       setCurrentTheme(savedTheme);
+    } else {
+      // Set default theme to dark if no saved preference
+      setCurrentTheme('dark');
     }
   }, []);
 

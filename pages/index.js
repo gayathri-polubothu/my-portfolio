@@ -39,8 +39,11 @@ export default function Home({ featuredProjects }) {
               <p className={`mb-4 ${theme.textSecondary}`}>
                 Experienced Full Stack Developer with over 9 years of hands-on experience in frontend, backend, and full-stack development roles. Skilled in building modern, scalable web applications using React.js, Angular, Node.js, and microservice-based architectures. Proficient in both RESTful and GraphQL API integrations, with a strong focus on performance, usability, and maintainable code.
               </p>
-              <p className={theme.textSecondary}>
+              <p className={`mb-4 ${theme.textSecondary}`}>
                 Currently working at ZORO UK, where I contribute to developing and optimizing e-commerce solutions that enhance user experience and support complex business workflows.
+              </p>
+              <p className={`${theme.textSecondary} font-medium`}>
+                Currently open to Fullstack, Frontend, and Backend Developer roles. Looking for full-time opportunities in London and happy to work in hybrid mode.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
